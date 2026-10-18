@@ -7,9 +7,9 @@
 
 ---
 
-## 📋 Description du projet
+## 📋 Description
 
-Ce dépôt contient l'ensemble des scripts, données, figures et réponses textuelles pour le **Devoir 1** du cours **BVG-7003**. Le projet aborde l'analyse critique de publications scientifiques ainsi que l'exploration bio-informatique et statistique de données RNA-Seq chez *Cannabis sativa* pour l'étude du déterminisme sexuel.
+Ce répertoire contient l'ensemble des scripts, données, figures et réponses textuelles pour le **Devoir 1** du cours **BVG-7003**. Le devoir est composer de 4 questions : 1) Faire le README.md du répertoire, 2) Faire le résumer d'un abstract, 3) Concevoir une pipeline d'analyse de données transcriptomique chez le Cannabis et 4) Concevoir un pipeline potentiel envers le sexage à haut débit des plant de Cannabis.
 
 ---
 
@@ -17,26 +17,30 @@ Ce dépôt contient l'ensemble des scripts, données, figures et réponses textu
 
 ```text
 .
-├── README.md               # Présentation générale du projet et instructions
-├── Question_1/             # Réponses et documents liés à la Question 1
-├── Question_2/             # Analyse bibliographique et résumé critique
-│   └── 1_Abstract_500.md   # Version raccourcie de l'abstract (rétractations scientifiques)
-├── Question_3/             # Réponses et synthèses pour la Question 3
-├── Question_4/             # Proposition et réflexion pour la Question 4
-│   └── proposition.md      # Document de proposition
-├── code/                   # Scripts d'analyse
-│   └── code_question_3.r   # Script R pour le traitement RNA-Seq, tests statistiques et graphiques
-├── data/                   # Données brutes et prétraitées
+├── README.md                           # Présentation générale du projet et instructions
+├── Question_1/                         # Réponses et documents liés à la Question 1
+├── Question_2/                         # Analyse bibliographique et résumé critique
+│   └── 1_Abstract_500.md               # Version raccourcie de l'abstract (rétractations scientifiques)
+├── Question_3/                         # Réponses et synthèses pour la Question 3
+│   └── Fonctionnement_pipeline.md      # Explication et fonctionnement du pipeline bio-informatique
+├── Question_4/                         # Proposition et réflexion pour la Question 4
+│   └── proposition.md                  # Document de proposition (pipeline RT-qPCR multiplexée)
+├── code/                               # Scripts d'analyse
+│   └── code_question_3.r               # Script R pour le traitement RNA-Seq, tests statistiques et graphiques
+├── data/                               # Données brutes et prétraitées
 │   └── 2_Data_RNASeq_Cannabis_Sex.csv  # Données d'expression RNA-Seq (sexes XX vs XY)
-└── figure/                 # Graphiques générés en haute résolution (300 DPI)
-    ├── REM16_exp_graph.png # Expression du gène REM16 selon le sexe
-    ├── F1_exp_graph.png    # Expression du gène FT1 / F1 selon le sexe
-    └── exp_graph.png       # Comparaison des 4 catégories (Locus & Sexe)
+└── figure/                             # Graphiques générés en haute résolution (300 DPI)
+    ├── REM16_exp_graph.png             # Expression du gène REM16 selon le sexe
+    ├── F1_exp_graph.png                # Expression du gène FT1 / F1 selon le sexe
+    ├── exp_graph.png                   # Comparaison des 4 catégories (Locus & Sexe)
+    ├── pca_graph.png                   # Analyse en composantes principales (PCA) des échantillons
+    ├── volcano_plot.png                # Volcano plot de l'expression différentielle globale
+    └── combined_sex_markers_plot.png   # Figure combinée multi-panneaux des marqueurs de sexe
 ```
 
 ---
 
-## 🔬 Résumé des questions et analyses
+## Résumé des questions et analyses
 
 ### Question 1
 - *[À compléter : Brève description du livrable]*
@@ -67,7 +71,7 @@ Pour exécuter les scripts du projet, assurez-vous d'avoir installé **R (versio
 ```r
 install.packages(c("ggplot2", "ggpubr", "tidyr", "car", "scales"))
 ```
-*(Le package `grid` est quant à lui inclus nativement dans R).*
+ *(Le package `grid` est quant à lui inclus nativement dans R).*
 
 ---
 
@@ -86,5 +90,5 @@ setwd("")
 Rscript code/code_question_3.r
 ```
 
-Les figures seront affichées et générées directement dans le dossier `figure/`.
+Les figures seront déja affichées et générées dans le dossier `figure/`.
 
