@@ -56,7 +56,7 @@ Ce dépôt contient l'ensemble des scripts, données, figures et réponses textu
   4. Visualisations de qualité publication avec `ggplot2` et `ggpubr` (boxplots, superposition des points individuels, et barres de significativité).
 
 ### Question 4 : Proposition
-- *[À compléter : Détails du sujet de la proposition de recherche]* (`Question_4/proposition.md`).
+- Conception d'un pipeline de sexage précoce à haut débit basé sur une RT-qPCR multiplexée ciblant le ratio d'expression `REM16` / `lncREM16` (`LOC133032448`) sur méristèmes apicaux (`Question_4/proposition.md`).
 
 ---
 
@@ -65,18 +65,26 @@ Ce dépôt contient l'ensemble des scripts, données, figures et réponses textu
 Pour exécuter les scripts du projet, assurez-vous d'avoir installé **R (version $\ge$ 4.0)** ainsi que les bibliothèques suivantes :
 
 ```r
-install.packages(c("ggplot2", "ggpubr", "tidyr", "car"))
+install.packages(c("ggplot2", "ggpubr", "tidyr", "car", "scales"))
 ```
+*(Le package `grid` est quant à lui inclus nativement dans R).*
 
 ---
 
-## 🚀 Exécution du code
+## Exécution du code
 
-Pour reproduire les analyses et générer l'ensemble des figures depuis la racine du dépôt :
-
+1. **Cloner le dépôt et se placer dans le répertoire :**
 ```bash
+git clone https://github.com/OliV-cell/Olivier_V_DEVOIR1_repertoire.git
+cd Olivier_V_DEVOIR1_repertoire
+```
+
+2. **Lancer le script d'analyse :**
+À l'interieur de R, il vous suffira de metre la direction de travail au répertoire
+```bash
+setwd("")
 Rscript code/code_question_3.r
 ```
 
-Les figures seront affichées et peuvent être exportées directement dans le dossier `figure/`.
+Les figures seront affichées et générées directement dans le dossier `figure/`.
 
