@@ -1,7 +1,13 @@
-#=======================================#
-#Script question 3 devoir 1
-#Olivier Vermette
-#=======================================#
+#==============================================================================#
+# PROJET      : BVG-7003 — Devoir 1 (Question 3)
+# LANGAGE     : R (version >= 4.0)
+# AUTEUR      : Olivier Vermette
+# SESSION     : Automne 2026
+# DESCRIPTION : Traitement RNA-Seq, tests statistiques et visualisations (REM16 & FT1)
+# PACKAGES    : ggplot2, ggpubr, tidyr, car, scales, grid
+# ENCODAGE    : UTF-8
+#==============================================================================#
+
 
 library(ggplot2)  
 library(ggpubr)   

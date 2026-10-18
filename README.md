@@ -1,5 +1,9 @@
 # BVG-7003 — Devoir 1
 
+[![Language: R](https://img.shields.io/badge/Language-R_%E2%89%A5_4.0-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
+[![Course: BVG-7003](https://img.shields.io/badge/Cours-BVG--7003-2e7d32)](https://github.com/OliV-cell/Olivier_V_DEVOIR1_repertoire)
+[![Analysis: RNA-Seq](https://img.shields.io/badge/Analyse-RNA--Seq-8A2BE2)](https://github.com/OliV-cell/Olivier_V_DEVOIR1_repertoire)
+
 **Auteur :** Olivier Vermette  
 **Cours :** BVG-7003 (Génomique fonctionnelle et bio-informatique végétale)  
 **Session :** Automne 2026  
