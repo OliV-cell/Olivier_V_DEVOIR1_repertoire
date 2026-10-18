@@ -15,13 +15,13 @@
 
 ---
 
-## <a id="description"></a>📋 Description
+## <a id="description"></a> Description
 
 Ce répertoire contient l'ensemble des scripts, données, figures et réponses textuelles pour le **Devoir 1** du cours **BVG-7003**. Le devoir est composer de 4 questions : 1) Faire le README.md du répertoire, 2) Faire le résumer d'un abstract, 3) Concevoir une pipeline d'analyse de données transcriptomique chez le Cannabis et 4) Concevoir un pipeline potentiel envers le sexage à haut débit des plant de Cannabis.
 
 ---
 
-## <a id="structure"></a>🗂️ Structure du répertoire
+## <a id="structure"></a> Structure du répertoire
 
 ```text
 .
@@ -48,7 +48,7 @@ Ce répertoire contient l'ensemble des scripts, données, figures et réponses t
 
 ---
 
-## <a id="questions"></a>🔬 Résumé des questions et analyses
+## <a id="questions"></a> Résumé des questions et analyses
 
 ### Question 1 : Initialisation du dépôt
 - Configuration du dépôt GitHub personnel, organisation des dossiers et suivi de version Git (`Question_1/README.md`).
