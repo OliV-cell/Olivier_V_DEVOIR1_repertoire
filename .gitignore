@@ -1,4 +1,4 @@
-# Fichiers système macOS
+
 .DS_Store
 .DS_Store?
 ._*
@@ -6,17 +6,11 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# Fichiers de session et d'historique R
 .Rhistory
 .RData
 .Ruserdata
 .Renviron
-
-# Fichiers RStudio
 .Rproj.user/
-
-# Fichiers temporaires et éditeurs
 *.swp
 *.swo
 *~

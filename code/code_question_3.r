@@ -438,14 +438,15 @@ volcano_plot <- ggplot(df_volcano, aes(x = Diff, y = Neg_Log10_Padj)) +
 
 print(volcano_plot)
 
-# Sauvegarde des graphiques
+# Sauvegarde des graphiques en grand format (haute résolution 300 DPI)
+if (!dir.exists("figure")) dir.create("figure", showWarnings = FALSE)
 
-ggsave("figure/REM16_exp_graph.png", plot = REM16_exp_graph, width = 6, height = 5, dpi = 300)
-ggsave("figure/F1_exp_graph.png", plot = F1_exp_graph, width = 6, height = 5, dpi = 300)
-ggsave("figure/exp_graph.png", plot = exp_graph, width = 8, height = 5, dpi = 300)
-ggsave("figure/pca_graph.png", plot = pca_graph, width = 7, height = 5.5, dpi = 300)
-ggsave("figure/combined_sex_markers_plot.png", plot = combined_sex_markers_plot, width = 12, height = 7, dpi = 300)
-ggsave("figure/volcano_plot.png", plot = volcano_plot, width = 8, height = 6, dpi = 300)
+ggsave("figure/REM16_exp_graph.png", plot = REM16_exp_graph, width = 8, height = 6.5, dpi = 300)
+ggsave("figure/F1_exp_graph.png", plot = F1_exp_graph, width = 8, height = 6.5, dpi = 300)
+ggsave("figure/exp_graph.png", plot = exp_graph, width = 10, height = 6.5, dpi = 300)
+ggsave("figure/pca_graph.png", plot = pca_graph, width = 9, height = 7, dpi = 300)
+ggsave("figure/combined_sex_markers_plot.png", plot = combined_sex_markers_plot, width = 14, height = 8.5, dpi = 300)
+ggsave("figure/volcano_plot.png", plot = volcano_plot, width = 10, height = 7.5, dpi = 300)
 
 # Malgré que REM16 pèse moins dans la PCA, il est le plus exprimé chez les femelles par rapport aux mâles, 
 # faisant de lui un gène candidat pour la détermination du sexe par transcriptomique
