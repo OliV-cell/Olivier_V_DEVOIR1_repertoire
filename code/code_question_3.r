@@ -20,7 +20,7 @@ data_rna_seq <- read.csv("./data/2_Data_RNASeq_Cannabis_Sex.csv")
 
 
 #LOC115699937
-#on fait un grep sans restriction car certain ID on des composition 
+#on fait un grep sans restriction car certain ID ont des compositions 
 #différente, dont REM16
 data_REM16 <- data_rna_seq[grep("LOC115699937", data_rna_seq[,1]),]
 
@@ -28,7 +28,7 @@ data_REM16 <- data_rna_seq[grep("LOC115699937", data_rna_seq[,1]),]
 data_FT1 <- data_rna_seq[grep("LOC115696989", data_rna_seq[,1]),]
 
 
-#on fait une fonction pour classer les male XY des femelles XX
+#on fait une fonction pour classer les male XY des femelles XX grace à leurs ID
 
 female_male_classifer <- function(data_frame, ID){
   sample_names <- colnames(data_frame)[-1]
@@ -48,22 +48,22 @@ organised_REM16 <- female_male_classifer(data_REM16, "REM16")
 organised_data_frame <- rbind(organised_F1,organised_REM16)
 
 #verificarion de la distribution pour t-test
-
 hist(organised_F1[which(organised_F1[,3] == "F"),"Exp_score"])
-hist(organised_F1[which(organised_REM16[,3] == "M"),"Exp_score"])
+hist(organised_REM16[which(organised_REM16[,3] == "M"),"Exp_score"])
 
 #non normal mais t-test rigoureux avec variance équivalente
 
 leveneTest(organised_F1$Exp_score ~ organised_F1$Sex)
-leveneTest(organised_REM16$Exp_score ~ organised_F1$Sex)
+leveneTest(organised_REM16$Exp_score ~ organised_REM16$Sex)
 
 #variance similaire donc le t-test est acceptable ici
-#et notre nombre d'individue est acceptable, 138.
+#et notre nombre d'individue est acceptable, 138 
+#Sur ce, je fait un t-test
 
 sex_colors <- c("F" = "darkmagenta", "M" = "darkgreen")
 sex_labels <- c("F" = "Femelle (XX)", "M" = "Mâle (XY)")
 
-# 1. Graphique d'expression pour REM16
+#Graphique d'expression pour REM16
 REM16_exp_graph <- ggplot(data = organised_REM16, aes(x = Sex, y = Exp_score, fill = Sex, color = Sex)) +
   geom_boxplot(width = 0.45, alpha = 0.85, 
                outlier.shape = TRUE, linewidth = 0.6, 
@@ -93,7 +93,7 @@ REM16_exp_graph <- ggplot(data = organised_REM16, aes(x = Sex, y = Exp_score, fi
   
 print(REM16_exp_graph)
 
-# 2. Graphique d'expression pour F1 / FT1
+#Graphique d'expression pour F1 / FT1
 F1_exp_graph <- ggplot(data = organised_F1, aes(x = Sex, y = Exp_score, fill = Sex, color = Sex)) +
   geom_boxplot(width = 0.45, alpha = 0.85, 
                outlier.shape = TRUE, linewidth = 0.6, 
@@ -123,7 +123,7 @@ F1_exp_graph <- ggplot(data = organised_F1, aes(x = Sex, y = Exp_score, fill = S
 
 print(F1_exp_graph)
 
-# 3. Graphique combiné : comparaison des moyennes entre toutes les catégories
+#Graphique combiné : comparaison des moyennes entre toutes les catégories
 organised_data_frame$Group <- factor(
   interaction(organised_data_frame$Locus_ID, organised_data_frame$Sex),
   levels = c("F1.F", "F1.M", "REM16.F", "REM16.M")
@@ -174,9 +174,10 @@ transpose_data_rna_seq <- t(data_rna_seq[, -1])
 colnames(transpose_data_rna_seq) <- data_rna_seq[, 1]
 
 # Gestion de la valeur manquante (NA) sur le gène LOC115696989 (FT1) pour l'échantillon 011_XX
+#détecter par l'agent lors d'une analyse des données
 transpose_data_rna_seq[is.na(transpose_data_rna_seq)] <- mean(transpose_data_rna_seq[, "LOC115696989"], na.rm = TRUE)
 
-# Analyse en Composantes Principales (PCA)
+# Analyse en Composantes Principales
 pca_result <- prcomp(transpose_data_rna_seq, scale. = TRUE)
 summary(pca_result)
 scores <- pca_result$x
@@ -221,20 +222,21 @@ sexe <- ifelse(grepl("XY", rownames(transpose_data_rna_seq)), "M", "F")
 
 
 #test des différence statistique entre PC1 et PC2 pour le sex
+#t-test car je veux simplement comparer les moyenne a priori
 t.test(scores[, 1] ~ sexe) 
 t.test(scores[, 2] ~ sexe)
 
 # PC2 différencie significativement les sexes (p < 1e-20), tandis que PC1
 # capture un facteur majeur non lié au sexe (stade de développement, tissu ou lot d'échantillonnage).
 # Pour isoler les gènes réellement discriminants du sexe sans le bruit de PC1,
-# nous sélectionnons les gènes selon leurs loadings sur PC2.
+# nous sélectionnons les gènes selon leurs loadings sur PC2, donc, leurs points sur la variance.
 
 loadings_pc2 <- pca_result$rotation[, "PC2"]
 top25_F <- names(head(sort(loadings_pc2, decreasing = TRUE), 25))
 top25_M <- names(head(sort(loadings_pc2, decreasing = FALSE), 25))
 top50_genes <- c(top25_F, top25_M)
 
-# 1. Barplot : Top 10 Mâles et Top 10 Femelles (+ position de REM16 à #11)
+#Barplot : Top 10 Mâles et Top 10 Femelles (+ position de REM16 à #11)
 top10_F <- head(sort(loadings_pc2, decreasing = TRUE), 10)
 top10_M <- head(sort(loadings_pc2, decreasing = FALSE), 10)
 rem16_loading <- loadings_pc2["Cannabis_LOC115699937"]
@@ -269,7 +271,7 @@ barplot_top10 <- ggplot(df_barplot, aes(x = Loading, y = Gene_clean, fill = Sex)
     legend.position = "bottom"
   )
 
-# 2. Heatmap des 50 gènes les plus discriminants entre femelle et mâle
+#Heatmap des 50 gènes les plus discriminants entre femelle et mâle
 mat_top50 <- transpose_data_rna_seq[, top50_genes]
 # Standardisation en Z-score par gène afin de discriminer les plus exprimer par rapport à la moyenne et la variance
 mat_top50_scaled <- scale(mat_top50)
@@ -436,8 +438,7 @@ volcano_plot <- ggplot(df_volcano, aes(x = Diff, y = Neg_Log10_Padj)) +
 
 print(volcano_plot)
 
-# Sauvegarde des graphiques en haute résolution (300 DPI) dans le dossier figure/
-if (!dir.exists("figure")) dir.create("figure", showWarnings = FALSE)
+# Sauvegarde des graphiques
 
 ggsave("figure/REM16_exp_graph.png", plot = REM16_exp_graph, width = 6, height = 5, dpi = 300)
 ggsave("figure/F1_exp_graph.png", plot = F1_exp_graph, width = 6, height = 5, dpi = 300)

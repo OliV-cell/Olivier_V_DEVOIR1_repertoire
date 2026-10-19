@@ -1,6 +1,6 @@
 # Fonctionnement du pipeline (Question 3)
 
-Ce document décrit les différentes étapes logiques et statistiques implémentées dans le script [`code/code_question_3.r`](../code/code_question_3.r) pour l'analyse des données transcriptomiques RNA-Seq de *Cannabis sativa*.
+Ce document décrit les différentes étapes implémentées dans le script [`code/code_question_3.r`](../code/code_question_3.r) pour l'analyse des données transcriptomiques de *Cannabis sativa*.
 
 ---
 
@@ -25,15 +25,15 @@ Ce document décrit les différentes étapes logiques et statistiques implément
   [ 2. Analyse Univariée ]        [ 3. Analyse Multivariée ]      [ 4. Criblage Global ]
     ├── Postulats statistiques      ├── Standardisation globale     ├── Tests t (20 500 gènes)
     │   (Normalité & Levene)        ├── ACP (prcomp, scale=TRUE)    ├── Correction FDR (B-H)
-    ├── Tests t bilatéraux          ├── PC1 : Effet tiers (bruit)   ├── Filtres : |Diff| > 1
-    └── Boxplots & Significativité  ├── PC2 : Sexe (p < 1e-20)      │             Padj < 0.05
+    ├── Tests t bilatéraux          ├── PC1 : Effet tiers           ├── Filtres : |Diff| > 1
+    └── Boxplots & Significativité  ├── PC2 : Sexe                  │             Padj < 0.05
           │                         └── Loadings (Top 50 gènes)     └── Focus REM16 / Mâle
           │                               │                               │
           ▼                               ▼                               ▼
   [ Figures Univariées ]          [ Figures Multivariées ]        [ Figure Volcano ]
     ├── REM16_exp_graph.png         ├── pca_graph.png               └── volcano_plot.png
-    ├── F1_exp_graph.png            └── combined_sex_markers_plot       (REM16 & LOC133032448)
-    └── exp_graph.png                   (Heatmap + Barplot)
+    ├── F1_exp_graph.png            └── combined_sex_markers_plot
+    └── exp_graph.png
 ========================================================================================
 ```
 
@@ -42,43 +42,34 @@ Ce document décrit les différentes étapes logiques et statistiques implément
 ## Étapes détaillées
 
 ### 1. Prétraitement et classification des échantillons
-- **Données sources :** Tableau d'expression RNA-Seq de 138 individus (mâles et femelles).
+- **Données sources :** Tableau d'expression de 138 individus (mâles et femelles).
 - **Classification automatique :** Fonction `female_male_classifer` identifiant le sexe à partir des identifiants des colonnes (`XX` $\rightarrow$ Femelle `F`, `XY` $\rightarrow$ Mâle `M`).
 - **Gestion des valeurs manquantes :** Imputation par la moyenne de la valeur manquante (`NA`) observée sur l'échantillon `011_XX` pour le gène *FT1* (`LOC115696989`).
 
-> 📝 **Notes / Observations à ajouter :**
-> - *(Ajoutez ici vos remarques sur le choix des données ou la qualité des échantillons)*
-
 ---
 
-### 2. Analyse univariée des gènes candidats (*REM16* et *FT1/F1*)
+### 2. Analyse des gènes candidats (*REM16* et *FT1/F1*)
 - **Gènes évalués :**
   - **REM16** (`LOC115699937`) : Marqueur méristématique floral.
   - **FT1 / F1** (`LOC115696989`) : Homologue de floraison (*Flowering Locus T*).
 - **Validation statistique des postulats :**
   - Évaluation de la distribution empirique.
   - Test d'homogénéité des variances de Levene (`car::leveneTest`) confirmant l'égalité des variances ($p > 0.05$).
-- **Comparaisons de moyennes :** Tests $t$ bilatéraux de Student avec affichage des niveaux de significativité (`stat_compare_means`).
+- **Comparaisons de moyennes :** Tests $t$ de Student avec affichage des niveaux de significativité (`stat_compare_means`).
 - **Sorties générées :**
   - [`figure/REM16_exp_graph.png`](../figure/REM16_exp_graph.png) : Boxplot montrant une nette surexpression chez les femelles.
   - [`figure/F1_exp_graph.png`](../figure/F1_exp_graph.png) : Boxplot montrant des niveaux comparables entre sexes.
   - [`figure/exp_graph.png`](../figure/exp_graph.png) : Vue combinée à 4 catégories.
 
-> 📝 **Notes / Observations à ajouter :**
-> - *(Ajoutez ici vos conclusions sur la significativité statistique de REM16 vs F1)*
-
 ---
 
-### 3. Analyse multivariée (ACP / PCA)
+### 3. Analyse exploratoire (ACP / PCA)
 - **Objectif :** Déterminer la structure globale du jeu de données et vérifier si le sexe biologique constitue la source principale de variance.
 - **Résultats de l'ACP (`prcomp`) :**
   - **PC1 :** Capture la plus grande part de variance mais n'est pas corrélée au sexe ($p > 0.05$ au test $t$). Elle reflète un effet biologique tiers (ex. type de tissu méristématique vs végétatif ou stade de maturité).
   - **PC2 :** Sépare significativement les sexes ($p < 10^{-20}$ au test $t$).
 - **Sortie générée :**
   - [`figure/pca_graph.png`](../figure/pca_graph.png) : Plan factoriel PC1 vs PC2 avec ellipses normales de confiance à 95 %.
-
-> 📝 **Notes / Observations à ajouter :**
-> - *(Ajoutez ici vos hypothèses sur la nature du facteur capturé par PC1)*
 
 ---
 
@@ -92,28 +83,21 @@ Ce document décrit les différentes étapes logiques et statistiques implément
 - **Sortie générée :**
   - [`figure/combined_sex_markers_plot.png`](../figure/combined_sex_markers_plot.png) : Figure composite 2 panneaux.
 
-> 📝 **Notes / Observations à ajouter :**
-> - *(Ajoutez ici vos commentaires sur les gènes situés au sommet du classement PC2)*
-
 ---
 
-### 5. Criblage transcriptomique global & Volcano Plot
+### 5. Volcano Plot
 - **Méthodologie statistique :**
   - Tests $t$ de Welch appliqués indépendamment sur les **20 500 gènes**.
   - Ajustement des valeurs $p$ pour tests multiples par le taux de faux positifs (**FDR**, méthode Benjamini-Hochberg).
   - Calcul de la différence moyenne d'expression ($\Delta = \bar{X}_{Femelles} - \bar{X}_{Mâles}$).
 - **Seuils décisionnels :**
   - $|\Delta| > 1.0$ (changement d'expression biologique significatif).
-  - $p_{\text{adj}} < 0.05$ (seuil de significativité statistique rigoureux).
-- **Observation clé :**
-  - *REM16* ressort comme le gène le plus significativement surexprimé chez les femelles (valeur de $-\log_{10}(p_{\text{adj}})$ maximale et amplitude d'effet élevée).
+  - $p_{\text{adj}} < 0.05$ (seuil de significativité).
+- **Observation :**
+  - *REM16* ressort comme le gène le plus significativement surexprimé chez les femelles.
   - Le gène *LOC133032448* ressort comme le marqueur mâle opposé le plus significatif.
 - **Sortie générée :**
   - [`figure/volcano_plot.png`](../figure/volcano_plot.png) : Nuage de points annoté mettant en valeur *REM16* et *LOC133032448*.
-
-> 📝 **Notes / Observations à ajouter :**
-> - *(Ajoutez ici votre interprétation du rôle de REM16 et LOC133032448 en vue de la Question 4)*
-
 ---
 
 ## Figures produites
