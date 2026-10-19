@@ -23,17 +23,17 @@ Ce document décrit les différentes étapes implémentées dans le script [`cod
           ├───────────────────────────────┬───────────────────────────────┐
           ▼                               ▼                               ▼
   [ 2. Analyse Univariée ]        [ 3. Analyse Multivariée ]      [ 4. Criblage Global ]
-    ├── Postulats statistiques      ├── Standardisation globale     ├── Tests t (20 500 gènes)
+    ├── Postulats statistiques      |                               ├── Tests t (20 500 gènes)
     │   (Normalité & Levene)        ├── ACP (prcomp, scale=TRUE)    ├── Correction FDR (B-H)
-    ├── Tests t bilatéraux          ├── PC1 : Effet tiers           ├── Filtres : |Diff| > 1
+    ├── Tests t                     ├── PC1 : Effet principal       ├── Filtres : |Diff| > 1
     └── Boxplots & Significativité  ├── PC2 : Sexe                  │             Padj < 0.05
           │                         └── Loadings (Top 50 gènes)     └── Focus REM16 / Mâle
           │                               │                               │
           ▼                               ▼                               ▼
-  [ Figures Univariées ]          [ Figures Multivariées ]        [ Figure Volcano ]
-    ├── REM16_exp_graph.png         ├── pca_graph.png               └── volcano_plot.png
-    ├── F1_exp_graph.png            └── combined_sex_markers_plot
-    └── exp_graph.png
+     [ Figures ]                     [ Figures ]                     [ Figures ]
+          ├── REM16_exp_graph.png         ├── pca_graph.png               └── volcano_plot.png
+          ├── F1_exp_graph.png            └── combined_sex_markers_plot
+          └── exp_graph.png
 ========================================================================================
 ```
 
