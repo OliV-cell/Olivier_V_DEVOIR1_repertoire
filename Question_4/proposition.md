@@ -4,21 +4,39 @@
 
 ### Pictogramme du pipeline proposé
 
-```mermaid
-flowchart TD
-    A["🌿 1. Échantillonnage ciblé<br/>Méristèmes apicaux précoces<br/><i>(Transition florale)</i>"] --> B["🧪 2. Extraction d'ARN rapide<br/>Microplaques 96 / 384 puits<br/><i>(Haut débit automatisé)</i>"]
-    B --> C["⚡ 3. RT-qPCR Multiplexée<br/>Sondes fluorescentes TaqMan :<br/>• FAM (REM16)<br/>• VIC (LOC133032448)"]
-    C --> D["📊 4. Détection optique temps réel<br/>Mesure des cycles seuils (Ct)"]
-    D --> E{"⚙️ 5. Algorithme de décision<br/>ΔCt = Ct(REM16) - Ct(LOC133032448)"}
-    
-    E -->|"REM16 surexprimé<br/>(ΔCt < 0)"| F["🌸 Plant FEMELLE (XX)<br/><i>Conservé pour la floraison</i>"]
-    E -->|"LOC133032448 surexprimé<br/>(ΔCt > 0)"| G["🌱 Plant MÂLE (XY)<br/><i>Éliminé avant floraison</i>"]
+```text
+========================================================================================
+             PIPELINE DE SEXAGE PRÉCOCE À HAUT DÉBIT (RT-qPCR MULTIPLEXÉE)
+========================================================================================
 
-    style A fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
-    style B fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    style C fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    style D fill:#e1f5fe,stroke:#0277bd,stroke-width:2px
-    style E fill:#fffde7,stroke:#fbc02d,stroke-width:2px
-    style F fill:#fce4ec,stroke:#c2185b,stroke-width:2px
-    style G fill:#e0f2f1,stroke:#00695c,stroke-width:2px
+  [ 1. Échantillonnage ciblé ]
+    └── Prélèvement sur méristèmes apicaux précoces (stade de transition florale)
+          │
+          ▼
+  [ 2. Extraction d'ARN rapide ]
+    └── Microplaques 96 / 384 puits (procédé automatisé à haut débit)
+          │
+          ▼
+  [ 3. RT-qPCR Multiplexée en puits unique ]
+    └── Double sondes fluorescentes TaqMan :
+          ├── Canal FAM : Marqueur femelle REM16 (LOC115699937)
+          └── Canal VIC : Marqueur mâle LOC133032448
+          │
+          ▼
+  [ 4. Détection optique en temps réel ]
+    └── Mesure des cycles seuils : Ct(REM16) et Ct(LOC133032448)
+          │
+          ▼
+  [ 5. Algorithme de décision statistique ]
+    └── Ratio d'expression relative : ΔCt = Ct(REM16) - Ct(LOC133032448)
+          │
+          ├─────────────────────────────────────────┐
+          ▼                                         ▼
+  [Plant FEMELLE (XX) ]                       [Plant MÂLE (XY) ]
+    ├── Condition : REM16 surexprimé          ├── Condition : LOC133032448 surexprimé
+    │   (ΔCt < 0)                             │   (ΔCt > 0)
+    └── Décision  : Conservé pour la          └── Décision  : Éliminé avant la floraison
+                    floraison / production                    (prévention de pollinisation)
+========================================================================================
 ```
+
