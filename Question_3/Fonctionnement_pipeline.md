@@ -2,6 +2,8 @@
 
 Ce document décrit les différentes étapes implémentées dans le script [`code/code_question_3.r`](../code/code_question_3.r) pour l'analyse des données transcriptomiques de *Cannabis sativa*.
 
+Assistée par IA
+
 ---
 
 ## Schéma du pipeline
