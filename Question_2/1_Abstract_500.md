@@ -12,3 +12,4 @@ In conclusion, the rise in retractions reflects changes in the behavior of both 
 
 ---
 **Nombre de mots :** 246 mots
+Avec IA
