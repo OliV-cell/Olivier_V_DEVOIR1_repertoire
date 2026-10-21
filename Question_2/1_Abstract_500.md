@@ -9,5 +9,6 @@ Our analysis also revealed shifts in the causes for retraction. Retractions for 
 Authors with a single retraction have become more prominent. They wrote 63.1% of retracted papers from 1993 to 2012, up from 46% in 1972–1992. Authors with multiple retractions were more influential earlier but accounted for less of the recent increase. This shift suggests retractions are now spread more broadly across the scientific community, rather than concentrated among a few prolific offenders.
 
 In conclusion, the rise in retractions reflects changes in the behavior of both authors and institutions.
+
 ---
 **Nombre de mots :** 246 mots
